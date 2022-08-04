@@ -1,6 +1,6 @@
-package FlightInfo;
+package flightInfo;
 
-    class ConnectingFlight implements FlightOption {
+    abstract class ConnectingFlight implements FlightOption {
     private int waitTime;
     private String location;
 //implementing

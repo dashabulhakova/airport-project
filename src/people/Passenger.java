@@ -1,6 +1,6 @@
 package people;
-import luggage.Bags;
 import java.util.Objects;
+import luggage.Bags;
 
 public class Passenger extends Person{
 

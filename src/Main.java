@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+import flightInfo.Flight;
+import flightInfo.Route;
+import luggage.Bags;
 public class Main {
     public static void main(String[] ars) {
         //create an instance of 'Route'
@@ -9,9 +11,16 @@ public class Main {
         System.out.println("Flight will cost " + f.getCost() + "$, Flight number is " + f.getFlightNum());
 
         System.out.println("Number of available flights to New York: " + Flight.getFlightCount());
-
-        Bags b = new Bags(5, 78);
-        b.bagCheckin();
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter your flight");
+        try {
+            int n = s.nextInt();
+            System.out.println(n);
+        } catch(Exception e) {
+            System.out.println("Please enter flight number");
+        }
+        //Bags b = new Bags(5, 78);
+        //b.bagCheckin();
     }
 
 }

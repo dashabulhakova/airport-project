@@ -1,13 +1,39 @@
-import java.util.Scanner;
 package luggage;
+import exceptions.NegativeInputException;
+import java.util.Scanner;
 
 public class Bags {
-    private final int size;
-    private final int weight;
+    private int size;
+    private int weight;
+    public static final double weightLimit = 50;
+    public static final double sizeLimit = 18;
 
     public Bags(int size, int weight) {
         this.size = size;
         this.weight = weight;
+
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+    public static double checkBags(double weight, double size) throws NegativeInputException {
+        if (weight > weightLimit || size > sizeLimit) {
+            throw new NegativeInputException("Your bag weight or size exceeds the limit");
+        }
+        else return weight;
     }
     final void bagCheckin() {
         Scanner s = new Scanner(System.in);

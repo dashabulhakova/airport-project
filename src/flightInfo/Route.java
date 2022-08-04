@@ -1,4 +1,4 @@
-package FlightInfo;
+package flightInfo;
 
 public class Route {
     private String origin;
@@ -8,6 +8,7 @@ public class Route {
     public Route(String origin, String destination) {
         this.origin = origin;
         this.destination = destination;
+        throw new IllegalArgumentException("Origin and destination are the same");
     }
     static class withConnection{
         public static void connect() {

@@ -1,4 +1,4 @@
-package FlightInfo;
+package flightInfo;
 
 public class Flight implements CalculateCost {
     private double cost;

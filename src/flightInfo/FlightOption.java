@@ -1,4 +1,4 @@
-package FlightInfo;
+package flightInfo;
 
 interface FlightOption {
     //abstract methods
