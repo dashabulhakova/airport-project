@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import flightInfo.Flight;
 import flightInfo.Route;
-import luggage.Bags;
+
 public class Main {
     public static void main(String[] ars) {
         //create an instance of 'Route'

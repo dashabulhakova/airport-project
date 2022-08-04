@@ -1,18 +1,18 @@
 package people;
 import java.util.Objects;
-import luggage.Bags;
+import luggage.Bag;
 
 public class Passenger extends Person{
 
         private int ticketNum;
         private int frequentFlyerNum;
-        public Bags bags;
+        public Bag bag;
 
-        public Passenger(String firstName, String lastName, int ticketNum, int frequentFlyerNum, Bags bags) {
+        public Passenger(String firstName, String lastName, int ticketNum, int frequentFlyerNum, Bag bag) {
             super(firstName, lastName);
             this.ticketNum = ticketNum;
             this.frequentFlyerNum = frequentFlyerNum;
-            this.bags = bags;
+            this.bag = bag;
         }
 
         // public checkBag(Bags bagCheckin) {
