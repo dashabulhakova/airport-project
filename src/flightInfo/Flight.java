@@ -1,14 +1,15 @@
 package flightInfo;
 
-public class Flight implements CalculateCost {
+public class Flight implements ICalculateCost {
     private double cost;
     private String flightNum;
     private int flightTime;
     private int seat;
     public Route route;
+    private String section;
     private static int flightCount;
 
-    public Flight (double cost, String flightNum, int flightTime, int seat, Route route) {
+    public Flight (int cost, String flightNum, int flightTime, int seat, Route route) {
         this.cost = cost;
         this.flightNum = flightNum;
         this.seat = seat;
@@ -29,17 +30,26 @@ public class Flight implements CalculateCost {
 
     @Override
     public void FlightCost() {
-        if (flightTime > 5)
-            cost = 300;
+        if (section == "Economy") {
+            if (flightTime < 5) {
+                cost = 300;
+            } else if (flightTime > 5) {
+                cost = 500;
+            }
+        } else if (section == "Business class") {
+                if (flightTime < 5) {
+                    cost = 600;
+                } else if (flightTime > 5) {
+                    cost = 800;
+                }
+            }
+
     }
 
     public static int getFlightCount() {
         return flightCount;
     }
 
-    public double cost() {
-        return cost;
-    }
     public void setCost(double cost) {
         this.cost = cost;
     }

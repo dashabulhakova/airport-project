@@ -15,9 +15,6 @@ public class Passenger extends Person{
             this.bag = bag;
         }
 
-        // public checkBag(Bags bagCheckin) {
-
-        // }
         @Override
         public String toString() {
             return "Passenger{" +

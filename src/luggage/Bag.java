@@ -1,4 +1,5 @@
 package luggage;
+import exceptions.ExceedLimitException;
 import exceptions.NegativeInputException;
 import java.util.Scanner;
 
@@ -29,40 +30,23 @@ public class Bag {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-    public static double checkBagWeight(double weight) throws NegativeInputException {
+    public static double checkBagWeight(double weight) throws ExceedLimitException, NegativeInputException {
         if (weight > weightLimit) {
-            throw new NegativeInputException("Your bag weight must be 23 kg");
+            throw new ExceedLimitException("You bag is too heavy");
         }
-        else return weight;
+        else if (weight < 0) {
+            throw new NegativeInputException("Please enter a positive number");
+        }
+            else return weight;
     }
-    public static double checkBagSize(double size) throws NegativeInputException {
+    public static double checkBagSize(double size) throws ExceedLimitException, NegativeInputException {
         if (size > sizeLimit) {
-            throw new NegativeInputException("Your bag size must be 50 cm");
+            throw new ExceedLimitException("You bag is too heavy");
+        }
+        else if (size < 0) {
+            throw new NegativeInputException("Please enter a positive number");
         }
         else return size;
-    }
-    final void bagCheckin() {
-        Scanner s = new Scanner(System.in);
-        String decision;
-        boolean choose = true;
-        while (choose) {
-            System.out.println("Do you have any bags to check in? yes/no");
-            decision = s.nextLine();
-
-            switch(decision) {
-                case "yes":
-                    choose = true;
-                    break;
-                case "no":
-                    choose = false;
-                    break;
-                default:
-                    System.out.println("Please enter yes or no");
-                    //decision = s.nextLine();
-                    break;
-            }
-        }
-
     }
 }
 

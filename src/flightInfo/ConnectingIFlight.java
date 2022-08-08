@@ -1,6 +1,6 @@
 package flightInfo;
 
-    abstract class ConnectingFlight implements FlightOption {
+    public class ConnectingIFlight implements IFlightOption {
     private int waitTime;
     private String location;
 //implementing
@@ -8,7 +8,7 @@ package flightInfo;
     public void changedWaitTime(int newWaitTime) {
         waitTime = newWaitTime;
     }
-    public ConnectingFlight(int waitTime, String location) {
+    public ConnectingIFlight(int waitTime, String location) {
         this.waitTime = waitTime;
         this.location = location;
     }

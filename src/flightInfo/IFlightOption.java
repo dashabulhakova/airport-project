@@ -1,7 +1,6 @@
 package flightInfo;
 
-interface FlightOption {
+interface IFlightOption {
     //abstract methods
-    void changedWaitTime(String s);
     void changedWaitTime(int newWaitTime);
 }
