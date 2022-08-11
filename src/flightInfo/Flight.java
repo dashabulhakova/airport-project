@@ -29,7 +29,7 @@ public class Flight implements ICalculateCost {
         }*/
 
     @Override
-    public void FlightCost() {
+    public void flightCost() {
         if (section == "Economy") {
             if (flightTime < 5) {
                 cost = 300;
@@ -89,6 +89,7 @@ public class Flight implements ICalculateCost {
     public void setRoute(Route route) {
         this.route = route;
     }
+
 }
 
 

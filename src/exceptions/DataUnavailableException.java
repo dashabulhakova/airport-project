@@ -1,7 +1,7 @@
 package exceptions;
 
 public class DataUnavailableException extends Exception{
-    public DataUnavailableException() {
+    public DataUnavailableException(String message) {
         super(message);
     }
 }

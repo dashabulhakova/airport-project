@@ -1,50 +1,56 @@
 package luggage;
 import java.util.Scanner;
 import exceptions.ExceedLimitException;
-import exceptions.DataUnavailableException;
+import exceptions.InvalidDataException;
 
-public class BagCheck extends Bag implements ICalculateBags{
+public class BagCheck extends Bag implements ICalculateBags {
     private int bagsTotal;
+    private boolean hasBag;
+
+    public boolean bagPresent() {
+        return hasBag;
+    }
     public BagCheck(int size, int weight, int bagsTotal) {
         super(size, weight);
         try {
             this.bagsTotal = bagsTotal;
             validateAmount(this.bagsTotal);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Here:" + e);
         }
     }
-    public void bagsAmount() {
-        bagsTotal++;
-        System.out.println(bagsTotal);
-    }
-   public void validateAmount(int bagsTotal) throws ExceedLimitException{
+
+
+   @Override
+    public void validateAmount(int bagsTotal) throws ExceedLimitException {
         if (bagsTotal > 50) {
             throw new ExceedLimitException("You have too many bags to check in");
         }
-   }
-    final void bagCheckIn()  throws DataUnavailableException{
+    }
+
+    public void bagCheckIn() throws InvalidDataException {
         Scanner s = new Scanner(System.in);
         String decision;
         boolean choose = true;
-        while (choose) {
+        while (hasBag) {
             System.out.println("Do you have any bags to check in? yes/no");
             decision = s.nextLine();
-            switch(decision) {
+            switch (decision) {
                 case "yes":
-                    choose = true;
+                    hasBag = true;
+                    System.out.println("How many bags do you have?");
+                    bagsTotal = Integer.parseInt(s.nextLine());
+                    bagsTotal++;
                     break;
                 case "no":
-                    choose = false;
+                    hasBag = false;
                     break;
                 default:
-                    System.out.println("Please enter yes or no");
-                    //decision = s.nextLine();
-                    break;
-                }
+                    throw new InvalidDataException("Please enter yes or no");
+
+            }
+
         }
 
     }
-
 }

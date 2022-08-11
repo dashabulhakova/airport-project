@@ -1,5 +1,7 @@
 package luggage;
 
+import exceptions.ExceedLimitException;
+
 public interface ICalculateBags {
-    void bagsAmount();
+    void validateAmount(int bagsTotal) throws ExceedLimitException;
 }
