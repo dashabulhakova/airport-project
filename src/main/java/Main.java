@@ -138,7 +138,7 @@ public class Main {
         LOGGER.info("Please enter name:");
         String name = s.nextLine();
         LOGGER.info("Please enter ticket number:");
-        Integer ticketNum = s.nextInt();
+        Integer ticketNum = Integer.parseInt(s.nextLine());
         LOGGER.info("Please enter outbound location:");
         String origin = s.nextLine();
         LOGGER.info("Please enter preferred destination:");

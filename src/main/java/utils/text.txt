@@ -1,15 +1,1 @@
 Hello, this is a test text for this program.
-
-Current number of unique words in this file: 8
-
-Current number of unique words in this file: 15
-
-Current number of unique words in this file: 15
-
-Current number of unique words in this file: 15
-
-Current number of unique words in this file: 15
-
-Current number of unique words in this file: 15
-
-Current number of unique words in this file: 15
