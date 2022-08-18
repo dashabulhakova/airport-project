@@ -31,8 +31,8 @@ public class Main {
         HashSet<String> uniqueWords = new HashSet<String>(Arrays.asList(fileText.split("\\s")));
         uniqueWords.remove("");
         LOGGER.info(uniqueWords);
-        FileUtils.writeStringToFile(file, "\n\nCurrent number of unique words in this file: " + uniqueWords.size(), "UTF-8", true);
-        LOGGER.info("Currently " + uniqueWords.size() + " unique words in file " + file.getName());
+        FileUtils.writeStringToFile(file, "\n\n Number of unique words in file: " + uniqueWords.size(), "UTF-8", true);
+        LOGGER.info("This file has " + uniqueWords.size() + " unique words in" + file.getName());
         LOGGER.info(uniqueWords);
         //return fileText.length();
 
