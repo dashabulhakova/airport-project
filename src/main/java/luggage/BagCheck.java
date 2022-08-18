@@ -4,12 +4,15 @@ import exceptions.ExceedLimitException;
 import exceptions.InvalidDataException;
 
 public class BagCheck extends Bag implements ICalculateBags {
-    private int bagsTotal;
+    private int bagsTotal = 0;
     private boolean hasBag;
 
     public boolean bagPresent() {
         return hasBag;
     }
+    public BagCheck () {
+
+    };
     public BagCheck(int size, int weight, int bagsTotal) {
         super(size, weight);
         try {
@@ -23,12 +26,12 @@ public class BagCheck extends Bag implements ICalculateBags {
 
    @Override
     public void validateAmount(int bagsTotal) throws ExceedLimitException {
-        if (bagsTotal > 50) {
+        if (bagsTotal > 5) {
             throw new ExceedLimitException("You have too many bags to check in");
         }
     }
 
-    public void bagCheckIn() throws InvalidDataException {
+    public int bagCheckIn() throws InvalidDataException {
         Scanner s = new Scanner(System.in);
         String decision;
         boolean choose = true;
@@ -51,6 +54,14 @@ public class BagCheck extends Bag implements ICalculateBags {
             }
 
         }
+        return bagsTotal;
+    }
 
+    public boolean isHasBag() {
+        return hasBag;
+    }
+
+    public void setHasBag(boolean hasBag) {
+        this.hasBag = hasBag;
     }
 }

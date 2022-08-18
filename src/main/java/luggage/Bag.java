@@ -9,6 +9,8 @@ public class Bag {
     public static final double weightLimit = 23;
     public static final double sizeLimit = 50;
 
+    public Bag() {};
+
     public Bag(int size, int weight) {
         this.size = size;
         this.weight = weight;

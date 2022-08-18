@@ -1,16 +1,40 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
+import exceptions.InvalidDataException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 
 import flightInfo.Flight;
 import flightInfo.Route;
 import luggage.BagCheck;
 import people.Passenger;
 import utils.DataLoader;
-
+import java.util.HashSet;
+import java.util.Arrays;
 public class Main {
-    protected static final Logger LOGGER = Logger.getLogger(Main.class);
-    public static void main(String[] ars) {
+    protected static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    public static void main(String[] ars) throws IOException{
+
+        File filename = new File("src/main/java/utils/text.txt");
+        //Construct a file from the set of filename elements.
+        File file = FileUtils.getFile(filename);
+        //read a file to a string
+        String fileText = StringUtils.lowerCase(FileUtils.readFileToString(file, "UTF-8"));
+        fileText = fileText.replaceAll("[^a-zA-Z \n]","");
+        LOGGER.info(fileText);
+        //split contents of a string into array and store in a hashset
+        HashSet<String> uniqueWords = new HashSet<String>(Arrays.asList(fileText.split("\\s")));
+        uniqueWords.remove("");
+        LOGGER.info(uniqueWords);
+        FileUtils.writeStringToFile(file, "\n\nCurrent number of unique words in this file: " + uniqueWords.size(), "UTF-8", true);
+        LOGGER.info("Currently " + uniqueWords.size() + " unique words in file " + file.getName());
+        LOGGER.info(uniqueWords);
+        //return fileText.length();
 
         Scanner scan = new Scanner(System.in);
         DataLoader.loadData();
@@ -24,20 +48,25 @@ public class Main {
     String name = scan.nextLine();
     System.out.println("Name from logger" + p.getFirstName());
     */
+        BagCheck b = new BagCheck();
         while(flag != true) {
-            System.out.println("Enter 1 to Register");
-            System.out.println("Enter 2 to Display available flights");
+            try {
+                b.bagCheckIn();
+            } catch (InvalidDataException e) {}
+
+            LOGGER.info("Enter 1 to Register");
+            LOGGER.info("Enter 2 to Display available flights");
            // System.out.println("Enter 3 to get information about your flight"); include food, seats etc
             //System.out.println("Enter 4 to book a seat");
-            System.out.println("Enter 5 to Exit");
+            LOGGER.info("Enter 5 to Exit");
             input = scan.nextInt();
             switch (input) {
                 case 1:
                     userRegistration();
                         while (flag2 != true) {
-                            System.out.println("Enter 1 to Book a Ticket");
-                            System.out.println("Enter 2 to Check your Membership Status");
-                            System.out.println("Enter 3 to Choose a Meal");
+                            LOGGER.info("Enter 1 to Book a Ticket");
+                            LOGGER.info("Enter 2 to Check your Membership Status");
+                            LOGGER.info("Enter 3 to Choose a Meal");
                             switch (choice) {
                                 case 1:
                                 case 2:
@@ -52,25 +81,24 @@ public class Main {
                 case 4:
                 case 5:
                     flag = true;
-                    System.out.println("Exiting...");
+                    LOGGER.info("Exiting...");
                     break;
                 default:
-                    System.out.println("You entered an invalid option");
+                    LOGGER.info("You entered an invalid option");
                     break;
             }
         }
-        //create an instance of 'Route'
+        /*
         Route route = new Route("Paris", "Miami" );
-        //create an instance of 'Flight' and pass route as an argument
         Flight f = DataLoader.getFlights().get(0);
-        System.out.println("This is destination" + f.getRoute().getDestination());
+        LOGGER.info("This is destination" + f.getRoute().getDestination());
                 //new Flight(200, "DF098", 4, 43, route);
-        System.out.println("Flight number is " + f.getFlightNum());
+        LOGGER.info("Flight number is " + f.getFlightNum());
 
-        System.out.println("Number of available flights to New York: " + Flight.getFlightCount());
+        LOGGER.info("Number of available flights to New York: " + Flight.getFlightCount());
 
-        System.out.println("Enter your flight" + f.getRoute().getOrigin());
-
+        LOGGER.info("Enter your flight" + f.getRoute().getOrigin());
+        */
         //Bags b = new Bags(5, 78);
         //b.bagCheckin();
     }
@@ -88,23 +116,25 @@ public class Main {
             o = f.getRoute().getOrigin();
             d = f.getRoute().getDestination();
             seats = f.getSeat();
-            System.out.println("Search for tickets from");
+            LOGGER.info("Search for tickets from");
             String origin = s.nextLine();
             String destination = s.nextLine();
             if((o.equals(origin)) && d.equals(destination)) {
             if (same == false) {
-                System.out.println("Display available flights");
+                LOGGER.info("Display available flights");
                 same = true;
             }
-                System.out.println(DataLoader.getFlights());
+                LOGGER.info(DataLoader.getFlights());
             }
         }
         if (same == false) {
-            System.out.println("No flights available");
+            LOGGER.info("No flights available");
         }
     }
     public static void userRegistration() {
         Scanner s = new Scanner(System.in);
+        BagCheck b = new BagCheck();
+
         LOGGER.info("Please enter name:");
         String name = s.nextLine();
         LOGGER.info("Please enter ticket number:");
@@ -113,7 +143,9 @@ public class Main {
         String origin = s.nextLine();
         LOGGER.info("Please enter preferred destination:");
         String destination = s.nextLine();
+        LOGGER.info("Do you have any bags to check in?");
+        b.bagPresent();
         //ask about connecting flight
-        System.out.println("Booking your ticket...");
+        LOGGER.info("Booking your ticket...");
     }
 }
