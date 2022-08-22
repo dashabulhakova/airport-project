@@ -1,0 +1,6 @@
+-------------------------
+|Ticket number: 23
+-------------------------
+Passenger name Dasha Bul
+You have: BagCheck{bagsTotal=3} bags
+Safe travels!
