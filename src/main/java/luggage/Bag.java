@@ -1,6 +1,8 @@
 package luggage;
 import exceptions.ExceedLimitException;
 import exceptions.NegativeInputException;
+
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Bag {
@@ -41,14 +43,8 @@ public class Bag {
         }
             else return weight;
     }
-    public static double checkBagSize(double size) throws ExceedLimitException, NegativeInputException {
-        if (size > sizeLimit) {
-            throw new ExceedLimitException("You bag is too heavy");
-        }
-        else if (size < 0) {
-            throw new NegativeInputException("Please enter a positive number");
-        }
-        else return size;
-    }
+
+
+
 }
 
