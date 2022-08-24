@@ -90,15 +90,16 @@ public class BagCheck extends Bag implements ICalculateBags {
     }
 
     @Override
-    public String toString() {
-        return "BagCheck{" +
-                "bagsTotal=" + bagsTotal +
-                '}';
+    public int hashCode() {
+        return Objects.hash(bagsTotal, isHasBag());
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(bagsTotal, isHasBag());
+    public String toString() {
+        return "BagCheck{" +
+                "bagsTotal=" + bagsTotal +
+                ", hasBag=" + hasBag +
+                '}';
     }
 
     public boolean isHasBag() {

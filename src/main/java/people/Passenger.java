@@ -1,5 +1,7 @@
 package people;
 import java.util.Objects;
+
+import enums.Meal;
 import luggage.Bag;
 
 import java.util.Objects;
@@ -11,7 +13,7 @@ public class Passenger extends Person implements ICheckMembership {
     private int ticketNum;
     private int frequentFlyerNum;
     public Bag bag;
-
+    public Meal meal;
     public Passenger(String firstName, String lastName, int ticketNum, int frequentFlyerNum, Bag bag) {
         super(firstName, lastName);
         this.ticketNum = ticketNum;
@@ -21,6 +23,7 @@ public class Passenger extends Person implements ICheckMembership {
     public Passenger(String firsName, String lastName) {
         super(firsName, lastName);
     }
+    @Override
     public int calculateDiscount(int discount) {
         if (frequentFlyerNum <= 1 && frequentFlyerNum <= 100) {
             discount = 10;
@@ -31,16 +34,20 @@ public class Passenger extends Person implements ICheckMembership {
         }
         return discount;
     }
-        @Override
-        public String toString() {
-            return "Passenger{" +
-                    "workId=" + ticketNum +
-                    ", firstName='" + firstName + '\'' +
-                    ", lastName='" + lastName + '\'' +
-                    '}';
-        }
 
-        @Override
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "ticketNum=" + ticketNum +
+                ", frequentFlyerNum=" + frequentFlyerNum +
+                ", bag=" + bag +
+                ", meal=" + meal +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+    @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Passenger)) return false;
@@ -52,6 +59,22 @@ public class Passenger extends Person implements ICheckMembership {
         public int hashCode() {
             return Objects.hash(ticketNum);
         }
+
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
+    public Bag getBag() {
+        return bag;
+    }
+
+    public void setBag(Bag bag) {
+        this.bag = bag;
+    }
 
     public int getTicketNum() {
         return ticketNum;

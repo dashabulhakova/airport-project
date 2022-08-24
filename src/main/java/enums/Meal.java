@@ -24,10 +24,6 @@ public enum Meal {
         return option;
     }
 
-    public void setOption(int option) {
-        this.option = option;
-    }
-
     public void requestMeal() {
         switch (option) {
             case 1:

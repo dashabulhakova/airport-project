@@ -1,4 +1,7 @@
 package enums;
+
+import java.util.Scanner;
+
 //this enum prints base fare associated with each airline, or it can print discounted fare(10%, 15%, and 20%)
 public enum AirLine {
     DELTA(176),
@@ -16,13 +19,11 @@ public enum AirLine {
     }
     private double fare() {return fare; }
 
-    public double tenPercent() {
-        return fare - (fare * 0.1);
+    public double getDiscountedFare(double discount){
+        return fare - ((fare * discount) / 100);
     }
-    public double fifteenPercent() {
-        return fare - (fare * 0.15);
-    }
-    public double twentyPercent() {
-        return fare - (fare * 0.2);
+
+    public double getFare() {
+        return fare;
     }
 }
