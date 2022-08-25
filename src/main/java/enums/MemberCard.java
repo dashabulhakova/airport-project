@@ -5,9 +5,9 @@ public enum MemberCard {
     SILVER("Silver", 3, 0.1),
     GOLD("Gold", 5, 0.15);
 
-    public String level;
-    public int yearsAsMember;
-    public double discount;
+    private String level;
+    private int yearsAsMember;
+    private double discount;
 
     MemberCard(String level, int yearsAsMember, double discount) {
         this.level = level;
@@ -16,5 +16,17 @@ public enum MemberCard {
     }
     public double discountedMembership(double price){
         return price - (price * discount);
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public int getYearsAsMember() {
+        return yearsAsMember;
+    }
+
+    public double getDiscount() {
+        return discount;
     }
 }

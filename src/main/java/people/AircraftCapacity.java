@@ -1,6 +1,6 @@
 package people;
 
-public class AircraftCapacity implements ICalculateAmount{
+public class AircraftCapacity {
     private static int passengerAmount;
     private static int staffAmount;
     private static int bagAmount;

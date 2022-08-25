@@ -1,69 +1,65 @@
 package flightInfo;
 
+import enums.AirLine;
+
+import java.util.Random;
+import java.util.Scanner;
+
+import org.apache.log4j.Logger;
+
 public class Flight implements ICalculateCost {
-    private double cost;
     private String flightNum;
-    private int flightTime;
+    private int ticketNum ;
     private int seat;
     public Route route;
-    private String section;
-    private static int flightCount;
-
-    public Flight (int cost, String flightNum, int flightTime, int seat, Route route) {
-        this.cost = cost;
+    public AirLine airline;
+    protected static final Logger LOGGER = Logger.getLogger(Flight.class.getName());
+    public Flight (String flightNum, int ticketNum, int seat, Route route) {
         this.flightNum = flightNum;
+        this.ticketNum = ticketNum;
         this.seat = seat;
-        this.flightTime = flightTime;
         this.route = route;
-        flightCount++;
     }
-    public boolean bookSeat(){
-        if (seat > 0) {
-            seat = seat - 1;
-            return true;
-        }
-        return false;
-    }
-       /* public int getInfo(){
+    public Flight () {}
 
-        }*/
+    public void bookSeat(){
+        seat = new Random(10).nextInt();
+    }
+
+    public void createTicketNumber() throws NullPointerException{
+        ticketNum = new Random(10).nextInt();
+
+    }
+    @Override
+    public AirLine flightCost() {
+        //takes Airline's fare as a base price
+        Scanner s = new Scanner(System.in);
+        LOGGER.info("Please enter the Airline you are flying with: ");
+        for (AirLine airlines : AirLine.values()) {
+            LOGGER.info(airlines.getIndex() + " " + airlines.getName());
+        }
+        airline = AirLine.values()[Integer.parseInt(s.nextLine())];
+        airline.getFare();
+        return airline;
+    }
 
     @Override
-    public void flightCost() {
-        if (section == "Economy") {
-            if (flightTime < 5) {
-                cost = 300;
-            } else if (flightTime > 5) {
-                cost = 500;
-            }
-        } else if (section == "Business class") {
-                if (flightTime < 5) {
-                    cost = 600;
-                } else if (flightTime > 5) {
-                    cost = 800;
-                }
-            }
-
+    public String toString() {
+        return "Flight{" +
+                "flightNum='" + flightNum + '\'' +
+                ", flightTime=" + ticketNum +
+                ", seat=" + seat +
+                ", route=" + route +
+                ", airline=" + airline +
+                '}';
     }
 
-    public static int getFlightCount() {
-        return flightCount;
+    public int getTicketNum() {
+        return ticketNum;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public int getFlightTime() {
-        return flightTime;
-    }
-
-    public void setFlightTime(int flightTime) {
-        this.flightTime = flightTime;
+    public void setTicketNum(int flightTime) {
+        this.ticketNum = ticketNum;
     }
 
     public String getFlightNum() {
@@ -90,6 +86,13 @@ public class Flight implements ICalculateCost {
         this.route = route;
     }
 
+    public AirLine airLine() {
+        return airline;
+    }
+
+    public void setAirline(AirLine flightCost) {
+        this.airline = flightCost;
+    }
 }
 
 

@@ -2,18 +2,16 @@ package people;
 import java.util.Objects;
 
 import enums.Meal;
+import flightInfo.Flight;
 import luggage.Bag;
 
-import java.util.Objects;
-
-import luggage.Bag;
-
-public class Passenger extends Person implements ICheckMembership {
+public class Passenger extends Person {
 
     private int ticketNum;
     private int frequentFlyerNum;
     public Bag bag;
     public Meal meal;
+    public Flight flight;
     public Passenger(String firstName, String lastName, int ticketNum, int frequentFlyerNum, Bag bag) {
         super(firstName, lastName);
         this.ticketNum = ticketNum;
@@ -23,17 +21,6 @@ public class Passenger extends Person implements ICheckMembership {
     public Passenger(String firsName, String lastName) {
         super(firsName, lastName);
     }
-    @Override
-    public int calculateDiscount(int discount) {
-        if (frequentFlyerNum <= 1 && frequentFlyerNum <= 100) {
-            discount = 10;
-            System.out.print("Your discount is 10 percent");
-        } else if (frequentFlyerNum < 100 && frequentFlyerNum <= 200) {
-            discount = 20;
-            System.out.print("Your discount is 10 percent");
-        }
-        return discount;
-    }
 
     @Override
     public String toString() {
@@ -42,8 +29,7 @@ public class Passenger extends Person implements ICheckMembership {
                 ", frequentFlyerNum=" + frequentFlyerNum +
                 ", bag=" + bag +
                 ", meal=" + meal +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", flight=" + flight +
                 '}';
     }
 
@@ -59,6 +45,14 @@ public class Passenger extends Person implements ICheckMembership {
         public int hashCode() {
             return Objects.hash(ticketNum);
         }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
 
     public Meal getMeal() {
         return meal;

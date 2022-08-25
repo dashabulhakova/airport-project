@@ -1,39 +1,25 @@
 package enums;
-
-import luggage.BagCheck;
-import org.apache.log4j.Logger;
-
 public enum Meal {
     VE(1, "Vegan"),
-    VG(2, "Vegeterian"),
-    H( 3, "Halaal"),
+    VG(2, "Vegetarian"),
+    H( 3, "Halal"),
     SF(4, "Sea Food"),
     LF(5, "Lactose Free"),
-    R( 6, "Regular");
+    R( 6, "Regular"),
+    D( 7, "Extra option");
 
-    public String mealType;
-    public int option;
-    private static final Logger LOGGER = Logger.getLogger(BagCheck.class.getName());
+    private String mealType;
+    private int option;
 
     Meal(int option, String mealType) {
         this.mealType = mealType;
         this.option = option;
     }
 
+    public String getMealType() {
+        return mealType;
+    }
     public int getOption() {
         return option;
     }
-
-    public void requestMeal() {
-        switch (option) {
-            case 1:
-                LOGGER.info(Meal.VE.mealType + ": " +
-                        "\nToday on the menu is vegan pasta.");
-                break;
-            default:
-                LOGGER.info(Meal.R.mealType);
-        }
-
-    }
-
 }

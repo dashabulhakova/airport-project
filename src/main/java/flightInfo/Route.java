@@ -1,13 +1,15 @@
 package flightInfo;
+import enums.City;
 import exceptions.InvalidDataException;
 public class Route {
-    private String origin;
-    private String destination;
+    private City origin;
+    private City destination;
+    public City city;
     private static boolean connecting = false;
     public Route() {
 
     }
-    public Route(String origin, String destination) {
+    public Route(City origin, City destination) {
         this.origin = origin;
         this.destination = destination;
     }
@@ -17,19 +19,19 @@ public class Route {
         }
     }
 
-    public String getOrigin() {
+    public City getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(City origin) {
         this.origin = origin;
     }
 
-    public String getDestination() {
+    public City getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(City destination) {
         this.destination = destination;
     }
 

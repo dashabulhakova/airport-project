@@ -1,6 +1,8 @@
 package utils;
 
 import java.util.ArrayList;
+
+import enums.City;
 import flightInfo.Flight;
 import flightInfo.Route;
 import luggage.Bag;
@@ -23,9 +25,9 @@ public class DataLoader {
     }
 
     private static void loadRoutes() {
-        routes.add(new Route("Miami", "Paris"));
-        routes.add(new Route("Miami", "NY"));
-        routes.add(new Route("Paris", "Lisboa"));
+        routes.add(new Route(City.CITY1, City.CITY4));
+        routes.add(new Route(City.CITY2, City.CITY3));
+        routes.add(new Route(City.CITY3, City.CITY4));
     }
 
     private static void loadBags() {
@@ -41,9 +43,9 @@ public class DataLoader {
     }
 
     private static void loadFlights() {
-        flights.add(new Flight(300, "UA011022", 2, 23, routes.get(0)));
-        flights.add(new Flight(500, "UA012345", 1, 12, routes.get(1)));
-        flights.add(new Flight(200, "UA06789", 6, 2, routes.get(1)));
+        flights.add(new Flight( "UA011022", 2, 23, routes.get(0)));
+        flights.add(new Flight( "UA012345", 1, 12, routes.get(1)));
+        flights.add(new Flight( "UA06789", 6, 2, routes.get(1)));
     }
 
     public static ArrayList<Flight> getFlights() {

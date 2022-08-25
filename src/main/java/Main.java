@@ -1,10 +1,16 @@
 import java.util.*;
 
 import enums.AirLine;
+import enums.City;
 import enums.Meal;
 import enums.MemberCard;
 import exceptions.ExceedLimitException;
 import exceptions.InvalidDataException;
+import flightInfo.Route;
+import functionalInterface.IAdd;
+import functionalInterface.IGenericInterface;
+import functionalInterface.NewRunnable;
+import functionalInterface.NewThread;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -28,19 +34,12 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         DataLoader.loadData();
-        LOGGER.info(AirLine.SPIRIT.fare);
-        Predicate<Passenger> allPassengers = passenger -> passenger.getFrequentFlyerNum() > 1;
-
-        //applyDiscounts();
-        //LOGGER.info("How much is you discount");
-       // double calcPer = AirLine.AMERICAN_AIRLINES.getDiscountedFare(Double.parseDouble(scan.nextLine()));
-       // LOGGER.info(calcPer);
 
         while (true) {
             LOGGER.info("Enter 1 to Register");
             LOGGER.info("Enter 2 to Display available flights");
             LOGGER.info("Enter 3 to Print All Passengers");
-            LOGGER.info("Enter 4 to Choose a Meal");
+            LOGGER.info("Enter 4 to Check the Measurements of your Bag");
             LOGGER.info("Enter 5 to Exit");
             int input = Integer.parseInt(scan.nextLine());
             switch (input) {
@@ -48,14 +47,15 @@ public class Main {
                     userRegistration();
                     break;
                 case 2:
-                    displayFlights();
+                    forLambda();
+                    genericLambda();
+                    deadLock();
                     break;
                 case 3:
                     printAllPassengers();
                     break;
                 case 4:
-
-                    //checkMeasurements();
+                    checkMeasurements();
                     break;
                 case 5:
                     LOGGER.info("Exiting...");
@@ -67,56 +67,74 @@ public class Main {
         }
     }
 
-    public static void displayFlights() {
-        int size, seats;
-        String o = "";
-        String d = "";
-        boolean same = false;
+    public static void forLambda() {
+        IAdd a = (x, y) -> x + y;
+        LOGGER.info(a.add(1, 2));
+    }
+    public static void genericLambda(){
+        IGenericInterface<Integer> factorial = (n) -> {
 
-        Scanner s = new Scanner(System.in);
-        size = DataLoader.getRoutes().size();
+            int result = 1;
+            for (int i = 1; i <= n; i++)
+                result = i * result;
+            return result;
+        };
 
-        for (int i = 0; i < size; i++) {
-            Flight f = DataLoader.getFlights().get(i);
-            o = f.getRoute().getOrigin();
-            d = f.getRoute().getDestination();
-            seats = f.getSeat();
-            LOGGER.info("Search for tickets from");
-            String origin = s.nextLine();
-            String destination = s.nextLine();
-            if ((o.equals(origin)) && d.equals(destination)) {
-                if (same == false) {
-                    LOGGER.info("Display available flights");
-                    same = true;
-                }
-                DataLoader.getFlights().forEach(flight -> {
-                    LOGGER.info(flight);
-                });
-                LOGGER.info(DataLoader.getFlights());
-            }
-        }
-        if (same == false) {
-            LOGGER.info("No flights available");
-        }
+        System.out.println("factorial of 5 = " + factorial.func(5));
     }
 
+    public static void deadLock() {
+        NewThread lock1 = new NewThread();
+        NewRunnable lock2 = new NewRunnable();
+        Thread thread1 = new Thread();
+        LOGGER.info("Thread " + Thread.currentThread().getName() + " starts here");
+        synchronized(lock1) {
+            LOGGER.info("Thread 1: Holding lock 1...");
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {}
+            LOGGER.info("Thread 1: Waiting for lock 2...");
+            }
+        synchronized (lock2) {
+            LOGGER.info("Thread 1: Holding lock 1 & 2...");
+        }
+        Thread thread2 = new Thread();
+        LOGGER.info("Thread " + thread2.getName() + " starts here");
+        synchronized (lock1) {
+            LOGGER.info("Thread 2: Holding lock 1...");
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {}
+            LOGGER.info("Thread 2: Waiting for lock 2...");
+
+            synchronized (lock2) {
+                LOGGER.info("Thread 2: Holding lock 1 & 2...");
+            }
+        }
+        thread1.start();
+        thread2.start();
+    }
     public static void printAllPassengers() {
         passengers.forEach(passenger -> {
             LOGGER.info(passenger);
         });
     }
 
-    public static void userRegistration() throws InvalidDataException {
+    public static void userRegistration() throws InvalidDataException, NullPointerException {
         Scanner s = new Scanner(System.in);
+
+        Flight flight = new Flight();
+        flight.bookSeat();
+        flight.createTicketNumber();
+
         LOGGER.info("Please enter first name:");
         String firstName = s.nextLine();
         LOGGER.info("Please enter last name:");
         String lastName = s.nextLine();
         Passenger passenger = new Passenger(firstName, lastName);
-        LOGGER.info("Please enter ticket number:");
-        passenger.setTicketNum(Integer.parseInt(s.nextLine()));
-        LOGGER.info("Please enter frequent flight member number:");
-        passenger.setFrequentFlyerNum(Integer.parseInt(s.nextLine()));
+        applyDiscounts();
+
         BagCheck b = new BagCheck();
         try {
             b.bagCheckIn();
@@ -125,7 +143,9 @@ public class Main {
         }
         passenger.bag = b;
         passenger.setMeal(foodOption());
+        flight.createTicketNumber();
         LOGGER.info("Booking your ticket...");
+        passenger.setFlight(flight);
         passengers.add(passenger);
         tickets++;
         try {
@@ -133,13 +153,12 @@ public class Main {
         } catch (IOException e) {
             LOGGER.error("Error: " + e);
         }
-        //LOGGER.info(tickets);
     }
     public static Meal foodOption() {
         Scanner s = new Scanner(System.in);
         LOGGER.info("Choose your meal: ");
         for (Meal meal : Meal.values()) {
-            LOGGER.info(meal.option + " " + meal.mealType);
+            LOGGER.info(meal.getOption() + " " + meal.getMealType());
         }
         LOGGER.info("Enter your food choice");
                 Meal meal = Meal.values()[Integer.parseInt(s.nextLine())];
@@ -157,44 +176,50 @@ public class Main {
             w = Double.parseDouble(s.nextLine());
             h = Double.parseDouble(s.nextLine());
             b.validateSize(l, w, h);
-            //LOGGER.info("This one is in main" + BagCheck.Convert.CMTOINCHES.convert(l));
         } catch (ExceedLimitException e) {
             LOGGER.error("Error: " + e);
         }
     }
     public static void applyDiscounts(){
-        MemberCard member; //what these r
+        MemberCard member;
         AirLine airline;
         double years;
+        double basePrice;
         double ticketPrice;
+        Flight flight = new Flight();
         Scanner s = new Scanner(System.in);
         LOGGER.info("Please enter number of years as a member: ");
         years = Double.parseDouble(s.nextLine());
+        flight.flightCost();
         if (years >= 1 && years <= 3) {
-            LOGGER.info("Please enter ticket price:");
-            double price = MemberCard.BRONZE.discountedMembership(Double.parseDouble(s.nextLine()));
-            LOGGER.info("Your membership level is " + MemberCard.BRONZE.level + " and your discounted price is " + price);
+            ticketPrice = MemberCard.BRONZE.discountedMembership(flight.airline.getFare());
+            LOGGER.info("Your membership level is " + MemberCard.BRONZE.getLevel() + " and your discounted price is " + ticketPrice);
         } else if (years >= 3 && years <=5) {
-            member = MemberCard.SILVER;
+            ticketPrice = MemberCard.SILVER.discountedMembership(flight.airline.getFare());
+            LOGGER.info("Your membership level is " + MemberCard.SILVER.getLevel() + " and your discounted price is " + ticketPrice);
         } else {
-            member = MemberCard.GOLD;
+            ticketPrice = MemberCard.GOLD.discountedMembership(flight.airline.getFare());
+            LOGGER.info("Your membership level is " + MemberCard.GOLD.getLevel() + " and your discounted price is " + ticketPrice);
         }
-        //MemberCard member = MemberCard.values()[Integer.parseInt(s.nextLine())];
-        //LOGGER.info("Your membership status is: " + member.level + " and your price with discount is: " + member.discountedMembership(Double.parseDouble(s.nextLine())));
     }
     public static void createTicket(Passenger passengers) throws IOException {
+        Flight flight = new Flight();
         if (tickets <= 0) {
             return;
         }
         File file = FileUtils.getFile("Tickets.txt");
         while (tickets > 0) {
             String newTicket = "\n-------------------------" + "" +
-                    "\n|Ticket number: " + passengers.getTicketNum() +
+                    "\n|Ticket number: " + passengers.flight.getTicketNum() +
                     "\n-------------------------" +
-                    "\nPassenger name " + StringUtils.capitalize(passengers.firstName) +
+                    "\nTicket for " + StringUtils.capitalize(passengers.firstName) +
                     " " + StringUtils.capitalize(passengers.lastName) +
+                    "                  " +
+                    "seat number " + passengers.flight.getSeat() +
                     "\nYou have: " +
-                    passengers.bag + " bags" +
+                    passengers.bag + " checked bags" +
+                    "\nYou have chosen a " + passengers.getMeal().getMealType() + " meal" +
+                    "\nAmount to pay: "  +
                     "\nSafe travels!";
             FileUtils.writeStringToFile(file, newTicket, "UTF-8", true);
             tickets--;

@@ -5,7 +5,7 @@ import exceptions.ExceedLimitException;
 import exceptions.InvalidDataException;
 import org.apache.log4j.Logger;
 
-public class BagCheck extends Bag implements ICalculateBags {
+public class BagCheck extends Bag implements ICalculateBags, IBagCheck {
     private int bagsTotal = 0;
     private boolean hasBag = false;
     //standard carry-on measurements
@@ -54,11 +54,11 @@ public class BagCheck extends Bag implements ICalculateBags {
         //LOGGER.info(l);
         double w = Convert.CMTOINCHES.convert(width);
         double h = Convert.CMTOINCHES.convert(height);
-        if (l > length || w > width || h > height) {
+        if (l > this.length || w > this.width || h > this.height) {
             throw new ExceedLimitException("Your bag size exceeds limits");
         }
     }
-
+@Override
     public int bagCheckIn() throws InvalidDataException {
         Scanner s = new Scanner(System.in);
         String decision;
@@ -96,10 +96,8 @@ public class BagCheck extends Bag implements ICalculateBags {
 
     @Override
     public String toString() {
-        return "BagCheck{" +
-                "bagsTotal=" + bagsTotal +
-                ", hasBag=" + hasBag +
-                '}';
+        return String.valueOf(bagsTotal);
+
     }
 
     public boolean isHasBag() {
