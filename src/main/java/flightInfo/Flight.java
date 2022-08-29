@@ -13,6 +13,7 @@ public class Flight implements ICalculateCost {
     private int seat;
     public Route route;
     public AirLine airline;
+    double cost = 0;
     protected static final Logger LOGGER = Logger.getLogger(Flight.class.getName());
     public Flight (String flightNum, int ticketNum, int seat, Route route) {
         this.flightNum = flightNum;
@@ -31,7 +32,7 @@ public class Flight implements ICalculateCost {
 
     }
     @Override
-    public AirLine flightCost() {
+    public double flightCost() {
         //takes Airline's fare as a base price
         Scanner s = new Scanner(System.in);
         LOGGER.info("Please enter the Airline you are flying with: ");
@@ -39,8 +40,8 @@ public class Flight implements ICalculateCost {
             LOGGER.info(airlines.getIndex() + " " + airlines.getName());
         }
         airline = AirLine.values()[Integer.parseInt(s.nextLine())];
-        airline.getFare();
-        return airline;
+        cost = airline.getFare();
+        return cost;
     }
 
     @Override
@@ -52,6 +53,14 @@ public class Flight implements ICalculateCost {
                 ", route=" + route +
                 ", airline=" + airline +
                 '}';
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public int getTicketNum() {

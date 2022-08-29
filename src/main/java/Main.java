@@ -7,10 +7,8 @@ import enums.MemberCard;
 import exceptions.ExceedLimitException;
 import exceptions.InvalidDataException;
 import flightInfo.Route;
-import functionalInterface.IAdd;
-import functionalInterface.IGenericInterface;
-import functionalInterface.NewRunnable;
-import functionalInterface.NewThread;
+import functionalInterface.*;
+import luggage.Bag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -23,8 +21,9 @@ import flightInfo.Flight;
 import luggage.BagCheck;
 import people.Passenger;
 import utils.DataLoader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import java.util.function.Predicate;
 
 public class Main {
     protected static final Logger LOGGER = Logger.getLogger(Main.class.getName());
@@ -37,7 +36,7 @@ public class Main {
 
         while (true) {
             LOGGER.info("Enter 1 to Register");
-            LOGGER.info("Enter 2 to Display available flights");
+            LOGGER.info("Enter 2 to Test methods");
             LOGGER.info("Enter 3 to Print All Passengers");
             LOGGER.info("Enter 4 to Check the Measurements of your Bag");
             LOGGER.info("Enter 5 to Exit");
@@ -82,6 +81,27 @@ public class Main {
 
         System.out.println("factorial of 5 = " + factorial.func(5));
     }
+    public static void piInterface() {
+
+        ICalcualtePi p = () -> 3.1415;
+        LOGGER.info("Value of Pi = " + p.getPi());
+    }
+
+    public static void stringInterface() {
+        IReverseString rev = (str) -> {
+
+            String result = "";
+            for (int i = str.length()-1; i >= 0 ; i--)
+                result += str.charAt(i);
+            return result;
+        };
+
+        LOGGER.info("Lambda reversed = " + rev.reverse("Lambda"));
+    }
+    public static void stringAddInt() {
+        IConcatString s = (str1, str2) -> str1 + str2;
+        LOGGER.info("Result: "+s.sconcat("My ", "string"));
+    }
 
     public static void deadLock() {
         NewThread lock1 = new NewThread();
@@ -116,9 +136,9 @@ public class Main {
         thread2.start();
     }
     public static void printAllPassengers() {
-        passengers.forEach(passenger -> {
-            LOGGER.info(passenger);
-        });
+            LOGGER.info(passengers);
+            //(passenger -> {
+            //            LOGGER.info(passenger);
     }
 
     public static void userRegistration() throws InvalidDataException, NullPointerException {
@@ -179,6 +199,19 @@ public class Main {
         } catch (ExceedLimitException e) {
             LOGGER.error("Error: " + e);
         }
+
+        //reflection
+        Bag bag = new Bag();
+        try {
+            bag = Bag.class.getConstructor(int.class, int.class).newInstance(s, w);
+            Method getBagDetails = Bag.class.getMethod("checkBagWeight");
+            double weight = (double) getBagDetails .invoke(bag);
+            LOGGER.info("The weight of your bag is " + weight);
+
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException
+                 | NoSuchMethodException e) {
+            LOGGER.error("Error: " + e);
+        }
     }
     public static void applyDiscounts(){
         MemberCard member;
@@ -201,6 +234,7 @@ public class Main {
             ticketPrice = MemberCard.GOLD.discountedMembership(flight.airline.getFare());
             LOGGER.info("Your membership level is " + MemberCard.GOLD.getLevel() + " and your discounted price is " + ticketPrice);
         }
+        flight.setCost(ticketPrice);
     }
     public static void createTicket(Passenger passengers) throws IOException {
         Flight flight = new Flight();
@@ -219,7 +253,7 @@ public class Main {
                     "\nYou have: " +
                     passengers.bag + " checked bags" +
                     "\nYou have chosen a " + passengers.getMeal().getMealType() + " meal" +
-                    "\nAmount to pay: "  +
+                    "\nAmount to pay: "  + passengers.flight.flightCost() +
                     "\nSafe travels!";
             FileUtils.writeStringToFile(file, newTicket, "UTF-8", true);
             tickets--;
