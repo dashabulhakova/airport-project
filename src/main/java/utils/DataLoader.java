@@ -43,11 +43,10 @@ public class DataLoader {
     }
 
     private static void loadFlights() {
-        flights.add(new Flight( "UA011022", 2, 23, routes.get(0)));
-        flights.add(new Flight( "UA012345", 1, 12, routes.get(1)));
-        flights.add(new Flight( "UA06789", 6, 2, routes.get(1)));
+        flights.add(new Flight( "UA011022", 2,"1B", routes.get(0)));
+        flights.add(new Flight( "UA012345", 1, "3A", routes.get(1)));
+        flights.add(new Flight( "UA06789", 6, "6C", routes.get(1)));
     }
-
     public static ArrayList<Flight> getFlights() {
         return flights;
     }
@@ -63,5 +62,6 @@ public class DataLoader {
     public static ArrayList<Bag> getBags() {
         return bags;
     }
+
 }
 

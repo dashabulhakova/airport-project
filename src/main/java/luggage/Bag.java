@@ -34,14 +34,8 @@ public class Bag {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-    public static double checkBagWeight(double weight) throws ExceedLimitException, NegativeInputException {
-        if (weight > weightLimit) {
-            throw new ExceedLimitException("You bag is too heavy");
-        }
-        else if (weight < 0) {
-            throw new NegativeInputException("Please enter a positive number");
-        }
-            else return weight;
+    public static int checkBagWeight(int weight, int size) throws ExceedLimitException, NegativeInputException {
+        return (Math.round(size + weight));
     }
 
     @Override

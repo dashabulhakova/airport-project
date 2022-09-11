@@ -54,7 +54,8 @@ public class Main {
                     printAllPassengers();
                     break;
                 case 4:
-                    checkMeasurements();
+                    //checkMeasurements();
+                    bag();
                     break;
                 case 5:
                     LOGGER.info("Exiting...");
@@ -144,9 +145,24 @@ public class Main {
     public static void userRegistration() throws InvalidDataException, NullPointerException {
         Scanner s = new Scanner(System.in);
 
+        Route route = new Route();
         Flight flight = new Flight();
         flight.bookSeat();
         flight.createTicketNumber();
+
+        LOGGER.info("Enter origin");
+        String origin = s.nextLine();
+        LOGGER.info("Enter destination");
+        String destination = s.nextLine();
+        for (City city : City.values()) {
+            if (origin.equalsIgnoreCase(city.getName())) {
+                   route.setOrigin(city);
+                    LOGGER.info("There is a route found for you");
+            } else if (destination.equalsIgnoreCase(city.getName())){
+                    route.setDestination(city);
+            }
+        }
+            route.validateRoute();
 
         LOGGER.info("Please enter first name:");
         String firstName = s.nextLine();
@@ -201,16 +217,27 @@ public class Main {
         }
 
         //reflection
-        Bag bag = new Bag();
+       // Bag bag = new Bag();
+
+    }
+    public static void bag() {
+        int s = 0;
+        int w = 0;
+        Scanner scan = new Scanner(System.in);
+        LOGGER.info("Please enter weight and size of your bag");
+        w = Integer.parseInt(scan.nextLine());
+        s = Integer.parseInt(scan.nextLine());
         try {
+            Bag bag = new Bag();
             bag = Bag.class.getConstructor(int.class, int.class).newInstance(s, w);
-            Method getBagDetails = Bag.class.getMethod("checkBagWeight");
-            double weight = (double) getBagDetails .invoke(bag);
+            Method getBagDetails = Bag.class.getMethod("checkBagWeight", int.class, int.class);
+            int weight = (int) getBagDetails.invoke(bag,s, w);
             LOGGER.info("The weight of your bag is " + weight);
 
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException
                  | NoSuchMethodException e) {
-            LOGGER.error("Error: " + e);
+            throw new RuntimeException(e);
+            //LOGGER.error("Error: " + e);
         }
     }
     public static void applyDiscounts(){
@@ -253,7 +280,7 @@ public class Main {
                     "\nYou have: " +
                     passengers.bag + " checked bags" +
                     "\nYou have chosen a " + passengers.getMeal().getMealType() + " meal" +
-                    "\nAmount to pay: "  + passengers.flight.flightCost() +
+                    "\nAmount to pay: "  + passengers.flight.getCost() +
                     "\nSafe travels!";
             FileUtils.writeStringToFile(file, newTicket, "UTF-8", true);
             tickets--;

@@ -11,7 +11,7 @@ public enum City {
         this.city = city;
     }
 
-    public String getCity() {
+    public String getName() {
         return city;
     }
 }

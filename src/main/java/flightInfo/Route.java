@@ -1,6 +1,8 @@
 package flightInfo;
 import enums.City;
 import exceptions.InvalidDataException;
+import org.apache.log4j.Logger;
+
 public class Route {
     private City origin;
     private City destination;
@@ -9,6 +11,7 @@ public class Route {
     public Route() {
 
     }
+    protected static final Logger LOGGER = Logger.getLogger(Route.class.getName());
     public Route(City origin, City destination) {
         this.origin = origin;
         this.destination = destination;
@@ -16,6 +19,13 @@ public class Route {
     static class withConnection{
         public static void connect() {
             connecting = true;
+        }
+    }
+    public void validateRoute() throws InvalidDataException {
+        if (this.origin == null || this.destination == null) {
+            throw new InvalidDataException("You entered the wrong origin or destination");
+        } else {
+            LOGGER.info("Route is validated");
         }
     }
 
